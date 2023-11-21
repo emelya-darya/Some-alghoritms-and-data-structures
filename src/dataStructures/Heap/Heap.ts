@@ -1,5 +1,5 @@
 // public methods that must be implemented in the class
-interface HeapInterface<ElementType, ValueToSearchType> {
+export interface HeapInterface<ElementType, ValueToSearchType> {
    getHeapContainer(): Array<ElementType>
    isEmpty(): boolean
    getRoot(): ElementType | null
@@ -47,16 +47,12 @@ export class Heap<ElementType, ValueToSearchType> implements HeapInterface<Eleme
    }
 
    // Search element - O(N)
-   protected find(item: ValueToSearchType) {
-      const searchItemsIdxs: Array<number> = []
-
+   protected findFirst(item: ValueToSearchType) {
       for (let itemIndex = 0; itemIndex < this.heapContainer.length; itemIndex++) {
-         if (this.isEqual(item, this.heapContainer[itemIndex])) {
-            searchItemsIdxs.push(itemIndex)
-         }
+         if (this.isEqual(item, this.heapContainer[itemIndex])) return itemIndex
       }
 
-      return searchItemsIdxs
+      return null
    }
 
    // Pushing up - O(logN)
@@ -125,7 +121,7 @@ export class Heap<ElementType, ValueToSearchType> implements HeapInterface<Eleme
    getRoot = () => (this.heapContainer.length > 0 ? this.heapContainer[0] : null)
 
    // Extracting root element - O(logN)
-   extractingRoot(): ElementType | null {
+   extractingRoot() {
       if (this.heapContainer.length === 0) return null
       if (this.heapContainer.length === 1) return this.heapContainer[0]
 
@@ -142,36 +138,35 @@ export class Heap<ElementType, ValueToSearchType> implements HeapInterface<Eleme
       this.resortFromEndToStart(this.heapContainer.length - 1)
    }
 
-   // Remove items - for each equal item in heapContainer - N*O(logN)
+   // Remove items - for each equal item in heapContainer - O(N)
    remove(item: ValueToSearchType) {
-      const numberOfItemsToRemove = this.find(item).length
+      let itemIdxToRemove = this.findFirst(item)
 
-      for (let i = 0; i < numberOfItemsToRemove; i++) {
-         const idxsToRemove = this.find(item)
-         const indexToRemove = idxsToRemove[idxsToRemove.length - 1]
-
-         if (indexToRemove === this.heapContainer.length - 1) this.removeLastAndReturn()
-         else {
+      while (itemIdxToRemove !== null) {
+         if (itemIdxToRemove === this.heapContainer.length - 1) {
+            this.removeLastAndReturn()
+            break
+         } else {
             // Move last element in heap to the vacant (removed) position.
-            this.heapContainer[indexToRemove] = this.removeLastAndReturn()
+            this.heapContainer[itemIdxToRemove] = this.removeLastAndReturn()
 
             // Get parent of replaced element
-            const parentItem = this.parent(indexToRemove)
+            const parentItem = this.parent(itemIdxToRemove)
 
             // If there is no parent or parent is in correct order with the node
             // we're going to delete then heapify down. Otherwise heapify up.
             if (
-               (parentItem === undefined || this.pairIsInCorrectOrder(parentItem, this.heapContainer[indexToRemove])) &&
-               this.hasLeftChild(indexToRemove)
+               (parentItem === undefined || this.pairIsInCorrectOrder(parentItem, this.heapContainer[itemIdxToRemove])) &&
+               this.hasLeftChild(itemIdxToRemove)
             ) {
-               this.resortFromStartToEnd(indexToRemove)
+               this.resortFromStartToEnd(itemIdxToRemove)
             } else {
-               this.resortFromEndToStart(indexToRemove)
+               this.resortFromEndToStart(itemIdxToRemove)
             }
+
+            itemIdxToRemove = this.findFirst(item)
          }
       }
-
-      // return this
    }
 }
 
@@ -200,18 +195,18 @@ class MaxHeapExample extends Heap<number, number> {
 
 const maxHeap = new MaxHeapExample()
 
-maxHeap.add(4)
-maxHeap.add(455)
-maxHeap.add(1)
-maxHeap.add(3)
-maxHeap.add(4)
-
-maxHeap.remove(3)
-
-console.log(maxHeap.getHeapContainer())
 /*
-   Result
-   [ 455, 4, 1, 4 ]
+   maxHeap.add(4)
+   maxHeap.add(455)
+   maxHeap.add(1)
+   maxHeap.add(3)
+   maxHeap.add(4)
+
+   maxHeap.remove(3)
+
+
+   console.log(maxHeap.getHeapContainer())
+   Result [ 455, 4, 1, 4 ]
 */
 
 // ! ************************************************** MIN HEAP ************************************************************
@@ -230,24 +225,26 @@ class MinHeapExample extends Heap<MinHeapExampleElementType, string> {
 
 const minHeapExample = new MinHeapExample()
 
-minHeapExample.add({ priority: 7, value: 'Element with priority 7' })
-minHeapExample.add({ priority: 3, value: 'Element with priority 3' })
-minHeapExample.add({ priority: 1, value: 'Element with priority 1' })
-minHeapExample.add({ priority: 100, value: 'Element with priority 100' })
-minHeapExample.add({ priority: 2, value: 'Element with priority 2' })
-minHeapExample.add({ priority: 2, value: 'Element with priority 2' })
-minHeapExample.add({ priority: 0, value: 'Element with priority 0' })
-
-minHeapExample.remove('Element with priority 2')
-
-console.log(minHeapExample.getHeapContainer())
 /*
+   minHeapExample.add({ priority: 7, value: 'Element with priority 7' })
+   minHeapExample.add({ priority: 3, value: 'Element with priority 3' })
+   minHeapExample.add({ priority: 1, value: 'Element with priority 1' })
+   minHeapExample.add({ priority: 100, value: 'Element with priority 100' })
+   minHeapExample.add({ priority: 2, value: 'Element with priority 2' })
+   minHeapExample.add({ priority: 2, value: 'Element with priority 2' })
+   minHeapExample.add({ priority: 0, value: 'Element with priority 0' })
+
+   minHeapExample.remove('Element with priority 2')
+
+   console.log(minHeapExample.getHeapContainer())
    Result
    [
-   { priority: 0, value: 'Element with priority 0' },
-   { priority: 3, value: 'Element with priority 3' },
-   { priority: 1, value: 'Element with priority 1' },
-   { priority: 100, value: 'Element with priority 100' },
-   { priority: 7, value: 'Element with priority 7' }
+      { priority: 0, value: 'Element with priority 0' },
+      { priority: 3, value: 'Element with priority 3' },
+      { priority: 1, value: 'Element with priority 1' },
+      { priority: 100, value: 'Element with priority 100' },
+      { priority: 7, value: 'Element with priority 7' }
    ]
-*/
+*/ 
+
+
