@@ -103,7 +103,7 @@ const smallTestGraph = {
    'Invalid start or end vertex name.'
 
 
-   import { largeGraph } from './assets/largeGraphForTest.js'
+   import { largeGraph } from './assets/largeGraphForTest.ts'
    console.log(dijkstrasAlg(largeGraph, '0-0', '99-99'))
    Result
    {
