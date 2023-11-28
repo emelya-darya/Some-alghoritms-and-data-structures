@@ -1,6 +1,6 @@
 import { Heap } from '../Heap/Heap.js'
 
-class PriorityQueue extends Heap {
+export class PriorityQueue extends Heap {
    constructor() {
       super()
       this.priorities = new Map()

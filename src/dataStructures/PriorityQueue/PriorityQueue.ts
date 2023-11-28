@@ -7,7 +7,7 @@ interface PriorityQueueInterface<ElementType, UniqueItemFieldType> extends HeapI
    getItemPriority(uniqueItemField: UniqueItemFieldType): number | null
 }
 
-class PriorityQueue<ElementType, UniqItemFieldType>
+export class PriorityQueue<ElementType, UniqItemFieldType>
    extends Heap<ElementType, UniqItemFieldType>
    implements PriorityQueueInterface<ElementType, UniqItemFieldType>
 {
