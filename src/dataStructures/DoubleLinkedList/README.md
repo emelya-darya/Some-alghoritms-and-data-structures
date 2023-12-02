@@ -30,7 +30,9 @@ _____
 
 #### Сравнение массивов и связных списков:
 
-<table>
+<p align='center'><img  src='./images/eq.webp' border="1px solid #000" alt='Сравнение массивов и связных списков'></p>
+
+<!-- <table>
     <thead style="background-color: #8A51E6; text-align: center; color: #fff; font-weight:700">
         <tr>
             <td>Массив</td>
@@ -59,7 +61,7 @@ _____
             <td>Возможен только последовательный доступ к элементам</td>
         </tr>
     </tbody>
-</table>
+</table> -->
 
 _____
 #### Источники:
