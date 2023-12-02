@@ -1,145 +1,90 @@
 export class Heap {
    constructor() {
-      this.heapContainer = []
+      this._heapContainer = []
    }
 
-   getHeapContainer = () => this.heapContainer
+   _getLeftChildIndex = parentIndex => 2 * parentIndex + 1
 
-   getLeftChildIndex = parentIndex => 2 * parentIndex + 1
+   _getRightChildIndex = parentIndex => 2 * parentIndex + 2
 
-   getRightChildIndex = parentIndex => 2 * parentIndex + 2
+   _getParentIndex = childIndex => Math.floor((childIndex - 1) / 2)
 
-   getParentIndex = childIndex => Math.floor((childIndex - 1) / 2)
+   _hasParent = childIndex => this._getParentIndex(childIndex) >= 0
 
-   hasParent = childIndex => this.getParentIndex(childIndex) >= 0
+   _hasLeftChild = parentIndex => this._getLeftChildIndex(parentIndex) < this._heapContainer.length
 
-   hasLeftChild = parentIndex => this.getLeftChildIndex(parentIndex) < this.heapContainer.length
+   _hasRightChild = parentIndex => this._getRightChildIndex(parentIndex) < this._heapContainer.length
 
-   hasRightChild = parentIndex => this.getRightChildIndex(parentIndex) < this.heapContainer.length
+   _leftChild = parentIndex => this._heapContainer[this._getLeftChildIndex(parentIndex)]
 
-   leftChild = parentIndex => this.heapContainer[this.getLeftChildIndex(parentIndex)]
+   _rightChild = parentIndex => this._heapContainer[this._getRightChildIndex(parentIndex)]
 
-   rightChild = parentIndex => this.heapContainer[this.getRightChildIndex(parentIndex)]
-
-   parent = childIndex => this.heapContainer[this.getParentIndex(childIndex)]
-
-   isEmpty = () => !this.heapContainer.length
-
-   // Get root element - 0(1)
-   getRoot = () => (this.heapContainer.length > 0 ? this.heapContainer[0] : null)
-
-   // Extracting root element - O(logN)
-   extractingRoot() {
-      if (this.heapContainer.length === 0) return null
-
-      if (this.heapContainer.length === 1) return this.heapContainer.pop()
-
-      const item = this.heapContainer[0]
-
-      this.heapContainer[0] = this.heapContainer.pop()
-      this.resortFromStartToEnd()
-
-      return item
-   }
+   _parent = childIndex => this._heapContainer[this._getParentIndex(childIndex)]
 
    // Swap 2 elements
-   swap(indexOne, indexTwo) {
-      const secEl = this.heapContainer[indexTwo]
-      this.heapContainer[indexTwo] = this.heapContainer[indexOne]
-      this.heapContainer[indexOne] = secEl
-   }
-
-   // Add item - O(logN)
-   add(item) {
-      this.heapContainer.push(item)
-      this.resortFromEndToStart()
-   }
-
-   // Remove items - for each equal item in heapContainer - O(N)
-   remove(item) {
-      let itemIdxToRemove = this.findFirst(item)
-
-      while (itemIdxToRemove !== null) {
-         if (itemIdxToRemove === this.heapContainer.length - 1) {
-            this.heapContainer.pop()
-            break
-         } else {
-            // Move last element in heap to the vacant (removed) position.
-            this.heapContainer[itemIdxToRemove] = this.heapContainer.pop()
-
-            // Get parent of replaced element
-            const parentItem = this.parent(itemIdxToRemove)
-
-            // If there is no parent or parent is in correct order with the node
-            // we're going to delete then heapify down. Otherwise heapify up.
-            if (
-               (parentItem === undefined || this.pairIsInCorrectOrder(parentItem, this.heapContainer[itemIdxToRemove])) &&
-               this.hasLeftChild(itemIdxToRemove)
-            ) {
-               this.resortFromStartToEnd(itemIdxToRemove)
-            } else {
-               this.resortFromEndToStart(itemIdxToRemove)
-            }
-
-            itemIdxToRemove = this.findFirst(item)
-         }
-      }
+   _swap(indexOne, indexTwo) {
+      const secEl = this._heapContainer[indexTwo]
+      this._heapContainer[indexTwo] = this._heapContainer[indexOne]
+      this._heapContainer[indexOne] = secEl
    }
 
    // Search element - O(N)
-   findFirst(item) {
-      for (let itemIndex = 0; itemIndex < this.heapContainer.length; itemIndex++) {
-         if (this.isEqual(item, this.heapContainer[itemIndex])) return itemIndex
+   _findFirst(item) {
+      for (let itemIndex = 0; itemIndex < this._heapContainer.length; itemIndex++) {
+         if (this._isEqual(item, this._heapContainer[itemIndex])) return itemIndex
       }
 
       return null
    }
 
    // Pushing up - O(logN)
-   resortFromEndToStart(customStartIndex) {
-      let currentIndex = customStartIndex || this.heapContainer.length - 1
+   _resortFromEndToStart(customStartIndex) {
+      let currentIndex = customStartIndex || this._heapContainer.length - 1
 
-      while (this.hasParent(currentIndex) && !this.pairIsInCorrectOrder(this.parent(currentIndex), this.heapContainer[currentIndex])) {
-         this.swap(currentIndex, this.getParentIndex(currentIndex))
-         currentIndex = this.getParentIndex(currentIndex)
+      while (this._hasParent(currentIndex) && !this._pairIsInCorrectOrder(this._parent(currentIndex), this._heapContainer[currentIndex])) {
+         this._swap(currentIndex, this._getParentIndex(currentIndex))
+         currentIndex = this._getParentIndex(currentIndex)
       }
    }
 
    // Pushing down - O(logN)
-   resortFromStartToEnd(customStartIndex) {
+   _resortFromStartToEnd(customStartIndex) {
       let currentIndex = customStartIndex || 0
       let nextIndex = null
 
       // left child имеет меньший индекс, чем rightchild, поэтому выбран он
-      while (this.hasLeftChild(currentIndex)) {
-         if (this.hasRightChild(currentIndex) && this.pairIsInCorrectOrder(this.rightChild(currentIndex), this.leftChild(currentIndex))) {
-            nextIndex = this.getRightChildIndex(currentIndex)
+      while (this._hasLeftChild(currentIndex)) {
+         if (
+            this._hasRightChild(currentIndex) &&
+            this._pairIsInCorrectOrder(this._rightChild(currentIndex), this._leftChild(currentIndex))
+         ) {
+            nextIndex = this._getRightChildIndex(currentIndex)
          } else {
-            nextIndex = this.getLeftChildIndex(currentIndex)
+            nextIndex = this._getLeftChildIndex(currentIndex)
          }
 
-         if (this.pairIsInCorrectOrder(this.heapContainer[currentIndex], this.heapContainer[nextIndex])) break
+         if (this._pairIsInCorrectOrder(this._heapContainer[currentIndex], this._heapContainer[nextIndex])) break
 
-         this.swap(currentIndex, nextIndex)
+         this._swap(currentIndex, nextIndex)
          currentIndex = nextIndex
       }
    }
 
-   pairIsInCorrectOrder(firstElement, secondElement) {
+   _pairIsInCorrectOrder(firstElement, secondElement) {
       throw new Error(`
       You should implement heap pair comparision method:
       
       For MinHeap the first element must be always smaller or equal,
-      for MaxHeap the first element must be always bigger or equal.
+      for MaxHeapExample the first element must be always bigger or equal.
 
       Example:
-      pairIsInCorrectOrder(firstElement: any, secondElement: any): boolean { 
+      _pairIsInCorrectOrder(firstElement: any, secondElement: any): boolean { 
          return firstElement <= secondElement
       }
     `)
    }
 
-   isEqual(valueToSearch, heapContainerElement) {
+   _isEqual(valueToSearch, heapContainerElement) {
       throw new Error(`
       You should implement equal check method:
 
@@ -147,10 +92,68 @@ export class Heap {
 
       type HeapItemType = { priority: number, value: string }
 
-      isEqual(valueToSearch: string, heapContainerElement: HeapItemType): boolean { 
+      _isEqual(valueToSearch: string, heapContainerElement: HeapItemType): boolean { 
          return valueToSearch === heapContainerElement.value
       }
     `)
+   }
+
+   getHeapContainer = () => this._heapContainer
+
+   isEmpty = () => !this._heapContainer.length
+
+   // Get root element - 0(1)
+   getRoot = () => (this._heapContainer.length > 0 ? this._heapContainer[0] : null)
+
+   // Extracting root element - O(logN)
+   extractingRoot() {
+      if (this._heapContainer.length === 0) return null
+
+      if (this._heapContainer.length === 1) return this._heapContainer.pop()
+
+      const item = this._heapContainer[0]
+
+      this._heapContainer[0] = this._heapContainer.pop()
+      this._resortFromStartToEnd()
+
+      return item
+   }
+
+   // Add item - O(logN)
+   add(item) {
+      this._heapContainer.push(item)
+      this._resortFromEndToStart()
+   }
+
+   // Remove items - for each equal item in heapContainer - O(N)
+   remove(item) {
+      let itemIdxToRemove = this._findFirst(item)
+
+      while (itemIdxToRemove !== null) {
+         if (itemIdxToRemove === this._heapContainer.length - 1) {
+            this._heapContainer.pop()
+            break
+         } else {
+            // Move last element in heap to the vacant (removed) position.
+            this._heapContainer[itemIdxToRemove] = this._heapContainer.pop()
+
+            // Get parent of replaced element
+            const parentItem = this._parent(itemIdxToRemove)
+
+            // If there is no parent or parent is in correct order with the node
+            // we're going to delete then heapify down. Otherwise heapify up.
+            if (
+               (parentItem === undefined || this._pairIsInCorrectOrder(parentItem, this._heapContainer[itemIdxToRemove])) &&
+               this._hasLeftChild(itemIdxToRemove)
+            ) {
+               this._resortFromStartToEnd(itemIdxToRemove)
+            } else {
+               this._resortFromEndToStart(itemIdxToRemove)
+            }
+
+            itemIdxToRemove = this._findFirst(item)
+         }
+      }
    }
 }
 
@@ -167,45 +170,44 @@ export class Heap {
 
 // ! ************************************************** MAX HEAP ************************************************************
 
-class MaxHeap extends Heap {
-   pairIsInCorrectOrder(firstElement, secondElement) {
+class MaxHeapExample extends Heap {
+   _pairIsInCorrectOrder(firstElement, secondElement) {
       return firstElement >= secondElement
    }
 
-   isEqual(valueToSearch, heapContainerElement) {
+   _isEqual(valueToSearch, heapContainerElement) {
       return valueToSearch === heapContainerElement
    }
 }
 
-const maxHeap = new MaxHeap()
+const maxHeapExample = new MaxHeapExample()
 
 /*
-   maxHeap.add(4)
-   maxHeap.add(455)
-   maxHeap.add(1)
-   maxHeap.add(3)
-   maxHeap.add(4)
+   maxHeapExample.add(4)
+   maxHeapExample.add(455)
+   maxHeapExample.add(1)
+   maxHeapExample.add(3)
+   maxHeapExample.add(4)
 
-   maxHeap.remove(3)
+   maxHeapExample.remove(3)
 
-
-   console.log(maxHeap.getHeapContainer())
-   Result [ 455, 4, 1, 4 ]
+   console.log(maxHeapExample.getHeapContainer())
+   *Result [ 455, 4, 1, 4 ]
 */
 
 // ! ************************************************** MIN HEAP ************************************************************
 
-class MinHeap extends Heap {
-   pairIsInCorrectOrder(firstElement, secondElement) {
+class MinHeapExample extends Heap {
+   _pairIsInCorrectOrder(firstElement, secondElement) {
       return firstElement.priority <= secondElement.priority
    }
 
-   isEqual(valueToSearch, heapContainerElement) {
+   _isEqual(valueToSearch, heapContainerElement) {
       return valueToSearch === heapContainerElement.value
    }
 }
 
-const minHeap = new MinHeap()
+const minHeapExample = new MinHeapExample()
 
 /*
    minHeapExample.add({ priority: 7, value: 'Element with priority 7' })
@@ -219,7 +221,7 @@ const minHeap = new MinHeap()
    minHeapExample.remove('Element with priority 2')
 
    console.log(minHeapExample.getHeapContainer())
-   Result
+   *Result
    [
       { priority: 0, value: 'Element with priority 0' },
       { priority: 3, value: 'Element with priority 3' },
@@ -227,4 +229,10 @@ const minHeap = new MinHeap()
       { priority: 100, value: 'Element with priority 100' },
       { priority: 7, value: 'Element with priority 7' }
    ]
-*/ 
+   
+   !=============================================================================================
+
+   console.log(minHeapExample.extractingRoot())
+   *Result  { priority: 0, value: 'Element with priority 0' }
+*/
+

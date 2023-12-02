@@ -89,23 +89,23 @@ const smallTestGraph = {
 
 /*
    console.log(dijkstrasAlg(smallTestGraph, 'a', 'f'))
-   Result
+   *Result
    { cost: 20, path: [ 'a', 'c', 'e', 'f' ] }
 
 
    console.log(dijkstrasAlg(smallTestGraph, 'a', 'a'))
-   Result
+   *Result
    { cost: 0, path: [ 'a' ] }
 
 
    console.log(dijkstrasAlg(smallTestGraph, 'a', 'k'))
-   Result
+   *Result
    'Invalid start or end vertex name.'
 
 
-   import { largeGraph } from './assets/largeGraphForTest.ts'
+   import { largeGraph } from './assets/largeGraphForTest.js'
    console.log(dijkstrasAlg(largeGraph, '0-0', '99-99'))
-   Result
+   *Result
    {
       cost: 263,
       path: [

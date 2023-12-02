@@ -3,66 +3,66 @@ import { Heap } from '../Heap/Heap.js'
 export class PriorityQueue extends Heap {
    constructor() {
       super()
-      this.priorities = new Map()
+      this._priorities = new Map()
    }
 
-   getUniqueItemField(item) {
+   _getUniqueItemField(item) {
       throw new Error(`
-       You should implement getUniqueItemField method:
+       You should implement _getUniqueItemField method:
  
        Example, if type of elements of PriorityQueue is PriorityQueueItemType:
  
        type PriorityQueueItemType = { priority: number, uniqField: string }
  
-       getUniqueItemField(item: PriorityQueueItemType) { 
+       _getUniqueItemField(item: PriorityQueueItemType) { 
           return item.uniqField
        }`)
    }
 
    // Changing the priority of an element that is already in the queue  -  O(N)
-   changePriority(item, newPriority) {
-      const uniqueItemField = this.getUniqueItemField(item)
+   _changePriority(item, newPriority) {
+      const uniqueItemField = this._getUniqueItemField(item)
       this.remove(uniqueItemField)
       this.add(item, newPriority)
    }
 
    // Add item - O(N)
    add(item, priority = 0) {
-      const uniqueItemField = this.getUniqueItemField(item)
+      const uniqueItemField = this._getUniqueItemField(item)
 
-      if (this.hasItem(uniqueItemField)) this.changePriority(item, priority)
+      if (this.hasItem(uniqueItemField)) this._changePriority(item, priority)
       else super.add(item)
 
-      this.priorities.set(uniqueItemField, priority)
+      this._priorities.set(uniqueItemField, priority)
    }
 
    // Remove items - O(N)
    remove(uniqueItemField) {
       if (this.hasItem(uniqueItemField)) {
          super.remove(uniqueItemField)
-         this.priorities.delete(uniqueItemField)
+         this._priorities.delete(uniqueItemField)
       }
    }
 
    extractingRoot() {
       const root = super.extractingRoot()
-      if (root !== null) this.priorities.delete(this.getUniqueItemField(root))
+      if (root !== null) this._priorities.delete(this._getUniqueItemField(root))
       return root
    }
 
    // O(1)
    hasItem(uniqueItemField) {
-      return this.priorities.has(uniqueItemField)
+      return this._priorities.has(uniqueItemField)
    }
 
    // O(1)
    getItemPriority(uniqueItemField) {
-      const priority = this.priorities.get(uniqueItemField)
+      const priority = this._priorities.get(uniqueItemField)
       return priority !== undefined ? priority : null
    }
 
    getPrioritiesMap() {
-      return this.priorities
+      return this._priorities
    }
 }
 
@@ -86,7 +86,7 @@ class PriorityQueueExample extends PriorityQueue {
       return valueToSearch === heapContainerElement.value
    }
 
-   getUniqueItemField(item) {
+   _getUniqueItemField(item) {
       return item.value
    }
 }
@@ -103,9 +103,8 @@ const priorityQueueExample = new PriorityQueueExample()
 
    priorityQueueExample.remove('Element with priority 3')
 
-
    console.log(priorityQueueExample.getHeapContainer())
-   Result
+   *Result
    [
       { priority: 0, value: 'Element with priority 0' },
       { priority: 1, value: 'Element with priority 1' },
@@ -113,9 +112,10 @@ const priorityQueueExample = new PriorityQueueExample()
       { priority: 2, value: 'Element with priority 2' }
    ]
 
+   !=============================================================================================
 
    console.log(priorityQueueExample.getPrioritiesMap())
-   Result
+   *Result
    Map(4) {
    'Element with priority 1' => 1,
    'Element with priority 100' => 100,
@@ -123,23 +123,28 @@ const priorityQueueExample = new PriorityQueueExample()
    'Element with priority 0' => 0
    }
 
+   !=============================================================================================
 
    console.log(priorityQueueExample.extractingRoot())
-   Result { priority: 0, value: 'Element with priority 0' }
+   *Result { priority: 0, value: 'Element with priority 0' }
 
-   
-   console.log(priorityQueueExample.extractingRoot())
-   Result { priority: 1, value: 'Element with priority 1' }
-
+   !=============================================================================================
 
    console.log(priorityQueueExample.extractingRoot())
-   Result { priority: 2, value: 'Element with priority 2' }
+   *Result { priority: 1, value: 'Element with priority 1' }
 
+   !=============================================================================================
+
+   console.log(priorityQueueExample.extractingRoot())
+   *Result { priority: 2, value: 'Element with priority 2' }
+
+   !=============================================================================================
 
    console.log(priorityQueueExample.hasItem('Element with priority 2'))
-   Result false
+   *Result false
 
+   !=============================================================================================
 
    console.log(priorityQueueExample.hasItem('Element with priority 100'))
-   Result true
+   *Result true
 */
