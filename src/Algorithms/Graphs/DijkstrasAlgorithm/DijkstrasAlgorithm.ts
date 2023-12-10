@@ -1,4 +1,4 @@
-import { PriorityQueue } from '../../DataStructures/PriorityQueue/PriorityQueue.ts'
+import { PriorityQueue } from '../../../DataStructures/PriorityQueue/PriorityQueue.ts'
 
 type GraphType = { [key: string]: { [key: string]: number } }
 

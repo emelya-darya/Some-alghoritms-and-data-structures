@@ -1,4 +1,4 @@
-import { PriorityQueue } from '../../DataStructures/PriorityQueue/PriorityQueue.js'
+import { PriorityQueue } from '../../../DataStructures/PriorityQueue/PriorityQueue.js'
 
 // Sorted ASC by costs fields
 class VertexesPriorityQueue extends PriorityQueue {
