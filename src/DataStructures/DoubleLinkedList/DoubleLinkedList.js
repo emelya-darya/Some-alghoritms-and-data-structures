@@ -23,16 +23,16 @@ export class DoubleLinkedList {
 
    _isEqual(searchNodeField, nodeValue) {
       throw new Error(`
-       You should implement equal check method:
- 
-       Example, if type of list element is DoubleLinkedListItemType:
- 
-       type DoubleLinkedListItemType = { title: string; description: string }
- 
-       isEqual(searchNodeField: string, nodeValue: DoubleLinkedListItemType): boolean { 
-          return searchNodeField === nodeValue.title
-       }
-     `)
+        You should implement equal check method:
+  
+        Example, if type of list element is DoubleLinkedListItemType:
+  
+        type DoubleLinkedListItemType = { title: string; description: string }
+  
+        isEqual(searchNodeField: string, nodeValue: DoubleLinkedListItemType): boolean { 
+           return searchNodeField === nodeValue.title
+        }
+      `)
    }
 
    getSize = () => this._size
@@ -225,15 +225,15 @@ export class DoubleLinkedList {
 }
 
 /*
- ? **************************************************************************************************************************
- ? **************************************************************************************************************************
- ? **************************************************************************************************************************
- ? ************************************************* Usage examples *********************************************************
- ? **************************************************************************************************************************
- ? **************************************************************************************************************************
- ? **************************************************************************************************************************
- ? **************************************************************************************************************************
- */
+  ? **************************************************************************************************************************
+  ? **************************************************************************************************************************
+  ? **************************************************************************************************************************
+  ? ************************************************* Usage examples *********************************************************
+  ? **************************************************************************************************************************
+  ? **************************************************************************************************************************
+  ? **************************************************************************************************************************
+  ? **************************************************************************************************************************
+  */
 
 class DDLExample extends DoubleLinkedList {
    _isEqual(searchNodeField, nodeValue) {
@@ -244,70 +244,70 @@ class DDLExample extends DoubleLinkedList {
 const ddlExample = new DDLExample()
 
 /*
-   ddlExample.push({ title: 'title1', description: 'description1' })
-   ddlExample.push({ title: 'title2', description: 'description2' })
-   ddlExample.push({ title: 'title3', description: 'description3' })
-   ddlExample.push({ title: 'title4', description: 'description4' })
-   ddlExample.push({ title: 'title4', description: 'description4' })
-   ddlExample.push({ title: 'title5', description: 'description5' })
-   ddlExample.unshift({ title: 'title0', description: 'description0' })
-   ddlExample.unshift({ title: 'title-1', description: 'description-1' })
-
-   ddlExample.print()
-
-   *Result 
-   ----------------------------------------------------------
-   List elements: 
-   {"title":"title-1","description":"description-1"}
-   {"title":"title0","description":"description0"}
-   {"title":"title1","description":"description1"}
-   {"title":"title2","description":"description2"}
-   {"title":"title3","description":"description3"}
-   {"title":"title4","description":"description4"}
-   {"title":"title4","description":"description4"}
-   {"title":"title5","description":"description5"}
-   ----------------------------------------------------------
-
-   !=============================================================================================
-
-   ddlExample.deleteMany('title4').deleteOneFirst('title3').deleteOneFirst('title5')
-   ddlExample.print()
-
-   *Result 
-   ----------------------------------------------------------
-   List elements: 
-   {"title":"title-1","description":"description-1"}
-   {"title":"title0","description":"description0"}
-   {"title":"title1","description":"description1"}
-   {"title":"title2","description":"description2"}
-   ----------------------------------------------------------
-
-   !=============================================================================================
-   
-   ddlExample.reverse()
-   ddlExample.print()
-
-   *Result 
-   ----------------------------------------------------------
-   List elements: 
-   {"title":"title2","description":"description2"}
-   {"title":"title1","description":"description1"}
-   {"title":"title0","description":"description0"}
-   {"title":"title-1","description":"description-1"}
-   ----------------------------------------------------------
-
-   !=============================================================================================
-
-   console.log(ddlExample.shift())
-   *Result  { title: 'title2', description: 'description2' }
-
-   !=============================================================================================
-
-   console.log(ddlExample.pop())
-   *Result  { title: 'title-1', description: 'description-1' }
-
-   !=============================================================================================
-
-   console.log(ddlExample.getSize())
-   *Result  2
-*/
+    ddlExample.push({ title: 'title1', description: 'description1' })
+    ddlExample.push({ title: 'title2', description: 'description2' })
+    ddlExample.push({ title: 'title3', description: 'description3' })
+    ddlExample.push({ title: 'title4', description: 'description4' })
+    ddlExample.push({ title: 'title4', description: 'description4' })
+    ddlExample.push({ title: 'title5', description: 'description5' })
+    ddlExample.unshift({ title: 'title0', description: 'description0' })
+    ddlExample.unshift({ title: 'title-1', description: 'description-1' })
+ 
+    ddlExample.print()
+ 
+    *Result 
+    ----------------------------------------------------------
+    List elements: 
+    {"title":"title-1","description":"description-1"}
+    {"title":"title0","description":"description0"}
+    {"title":"title1","description":"description1"}
+    {"title":"title2","description":"description2"}
+    {"title":"title3","description":"description3"}
+    {"title":"title4","description":"description4"}
+    {"title":"title4","description":"description4"}
+    {"title":"title5","description":"description5"}
+    ----------------------------------------------------------
+ 
+    !=============================================================================================
+ 
+    ddlExample.deleteMany('title4').deleteOneFirst('title3').deleteOneFirst('title5')
+    ddlExample.print()
+ 
+    *Result 
+    ----------------------------------------------------------
+    List elements: 
+    {"title":"title-1","description":"description-1"}
+    {"title":"title0","description":"description0"}
+    {"title":"title1","description":"description1"}
+    {"title":"title2","description":"description2"}
+    ----------------------------------------------------------
+ 
+    !=============================================================================================
+    
+    ddlExample.reverse()
+    ddlExample.print()
+ 
+    *Result 
+    ----------------------------------------------------------
+    List elements: 
+    {"title":"title2","description":"description2"}
+    {"title":"title1","description":"description1"}
+    {"title":"title0","description":"description0"}
+    {"title":"title-1","description":"description-1"}
+    ----------------------------------------------------------
+ 
+    !=============================================================================================
+ 
+    console.log(ddlExample.shift())
+    *Result  { title: 'title2', description: 'description2' }
+ 
+    !=============================================================================================
+ 
+    console.log(ddlExample.pop())
+    *Result  { title: 'title-1', description: 'description-1' }
+ 
+    !=============================================================================================
+ 
+    console.log(ddlExample.getSize())
+    *Result  2
+ */
