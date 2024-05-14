@@ -1,25 +1,24 @@
 import { PriorityQueue } from '../../../DataStructures/PriorityQueue/PriorityQueue.ts'
-
-type GraphType = { [key: string]: { [key: string]: number } }
+import { Graph, WeightedGraphType } from '../../../DataStructures/Graph/Graph.ts'
 
 type VertexInPriorityQueueType = { vrtxName: string; cost: number }
 
 // Sorted ASC by costs fields
 class VertexesPriorityQueue extends PriorityQueue<VertexInPriorityQueueType, string> {
-   protected pairIsInCorrectOrder(firstElement: VertexInPriorityQueueType, secondElement: VertexInPriorityQueueType): boolean {
+   protected _pairIsInCorrectOrder(firstElement: VertexInPriorityQueueType, secondElement: VertexInPriorityQueueType): boolean {
       return firstElement.cost <= secondElement.cost
    }
 
-   protected isEqual(valueToSearch: string, heapContainerElement: VertexInPriorityQueueType) {
+   protected _isEqual(valueToSearch: string, heapContainerElement: VertexInPriorityQueueType) {
       return valueToSearch === heapContainerElement.vrtxName
    }
 
-   protected getUniqueItemField(item: VertexInPriorityQueueType) {
+   protected _getUniqueItemField(item: VertexInPriorityQueueType) {
       return item.vrtxName
    }
 }
 
-export const dijkstrasAlg = function (graph: GraphType, start: string, end: string) {
+export const dijkstrasAlg = function (graph: WeightedGraphType, start: string, end: string) {
    if (!graph[start] || !graph[end]) return 'Invalid start or end vertex name.'
 
    const costs = { [start]: 0 }
@@ -78,14 +77,14 @@ export const dijkstrasAlg = function (graph: GraphType, start: string, end: stri
  ? **************************************************************************************************************************
  */
 
-const smallTestGraph = {
+const smallTestGraph = new Graph({
    a: { e: 14, c: 9, b: 7 },
    b: { a: 7, c: 10, d: 15 },
    c: { e: 2, a: 9, b: 10, d: 11 },
    d: { f: 6, c: 11, b: 15 },
    e: { f: 9, c: 2, a: 14 },
    f: { e: 9, d: 6 },
-}
+}).getWeightedGraphForm()  
 
 /*
    console.log(dijkstrasAlg(smallTestGraph, 'a', 'f'))

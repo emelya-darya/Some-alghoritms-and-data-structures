@@ -1,13 +1,13 @@
 import { Stack } from './../../../DataStructures/Stack/Stack'
+import { Graph, UnweightedGraphType } from '../../../DataStructures/Graph/Graph'
 
-type GraphType = { [key: string]: Array<string> }
-type ReachableVrtxsType = { [key: string]: true }
+type ReachableVrtxsType = Record<string, true>
 
 /*
   if reachableFrom - is a string with the name of the vertex, then a list of vertices reachable from the given one will be returned
   else if reachableFrom === null - will return a list of all reachable vertices of the graph
 */
-export const dfs = function (graph: GraphType, reachableFrom: string | null = null) {
+export const dfs = function (graph: UnweightedGraphType, reachableFrom: string | null = null) {
    const vrtxsStack = new Stack<string, any>()
    const reachableVrtxs: ReachableVrtxsType = {}
 
@@ -29,7 +29,7 @@ export const dfs = function (graph: GraphType, reachableFrom: string | null = nu
          currVrtxsNeighbours.forEach(nb => {
             if (!reachableVrtxs[nb]) {
                reachableVrtxs[nb] = true
-               vrtxsStack.put(nb)
+               vrtxsStack.put(String(nb))
             }
          })
       }
@@ -52,14 +52,14 @@ export const dfs = function (graph: GraphType, reachableFrom: string | null = nu
  ? **************************************************************************************************************************
  */
 
-const testGraph = {
+const testGraph = new Graph({
    a: ['b', 'c'],
    b: ['f'],
    c: ['d', 'e'],
    d: ['f'],
    e: ['f'],
    f: ['g'],
-}
+}).getUnweightedGraphForm()
 
 /*
       console.log(dfs(testGraph))

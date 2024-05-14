@@ -78,11 +78,11 @@ export class PriorityQueue extends Heap {
  */
 
 class PriorityQueueExample extends PriorityQueue {
-   pairIsInCorrectOrder(firstElement, secondElement) {
+   _pairIsInCorrectOrder(firstElement, secondElement) {
       return firstElement.priority <= secondElement.priority
    }
 
-   isEqual(valueToSearch, heapContainerElement) {
+   _isEqual(valueToSearch, heapContainerElement) {
       return valueToSearch === heapContainerElement.value
    }
 

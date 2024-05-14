@@ -1,10 +1,10 @@
 import { Stack } from '../../../../DataStructures/Stack/Stack'
 import { dfs } from '../../DFS/DepthFirstSearch'
+import { Graph, UnweightedGraphType } from '../../../../DataStructures/Graph/Graph'
 
-type GraphType = { [key: string]: Array<string> }
-type VisitedVrtxsType = { [key: string]: 'grey' | 'black' }
+type VisitedVrtxsType = Record<string, 'grey' | 'black'>
 
-const checkPathsFromOneVrtx = function (graph: GraphType, start: string) {
+const checkPathsFromOneVrtx = function (graph: UnweightedGraphType, start: string) {
    const vStack = new Stack<string, any>()
    const visited: VisitedVrtxsType = {}
 
@@ -27,8 +27,8 @@ const checkPathsFromOneVrtx = function (graph: GraphType, start: string) {
 
          if (!visited[nb]) {
             visited[nb] = 'grey'
-            output.processedVs.add(nb)
-            vStack.put(nb)
+            output.processedVs.add(String(nb))
+            vStack.put(String(nb))
             hasUnprocessableNBs = true
             break
          } else if (visited[nb] === 'grey') {
@@ -46,7 +46,7 @@ const checkPathsFromOneVrtx = function (graph: GraphType, start: string) {
    return output
 }
 
-export const isTheGraphAcyclic = function (graph: GraphType) {
+export const isTheGraphAcyclic = function (graph: UnweightedGraphType) {
    let verticesToCheck = dfs(graph)
 
    while (verticesToCheck.length) {
@@ -70,7 +70,7 @@ export const isTheGraphAcyclic = function (graph: GraphType) {
  ? **************************************************************************************************************************
  */
 
-const cyclicTestGraph = {
+const cyclicTestGraph = new Graph({
    A: ['B', 'E'],
    B: ['C'],
    C: ['D'],
@@ -79,9 +79,9 @@ const cyclicTestGraph = {
    F: ['G'],
    G: ['H'],
    H: ['D', 'F'],
-}
+}).getUnweightedGraphForm()
 
-const acyclicTestGraph = {
+const acyclicTestGraph = new Graph({
    A: ['B', 'E'],
    B: ['C'],
    C: ['D'],
@@ -90,7 +90,7 @@ const acyclicTestGraph = {
    F: [],
    G: ['H'],
    H: ['D', 'F'],
-}
+}).getUnweightedGraphForm()
 
 /*
      console.log(isTheGraphAcyclic(cyclicTestGraph))

@@ -1,3 +1,4 @@
+import { Graph } from '../../../DataStructures/Graph/Graph.js'
 import { Queue } from '../../../DataStructures/Queue/Queue.js'
 
 export const bfs = function (graph, start) {
@@ -12,8 +13,8 @@ export const bfs = function (graph, start) {
 
       neighbours.forEach(neighbour => {
          if (paths[neighbour] === undefined) {
-            paths[neighbour] = [...paths[currPoint], neighbour]
-            pointsQueue.enqueue(neighbour)
+            paths[neighbour] = [...paths[currPoint].map(el => String(el)), String(neighbour)]
+            pointsQueue.enqueue(String(neighbour))
          }
       })
    }
@@ -32,14 +33,14 @@ export const bfs = function (graph, start) {
  ? **************************************************************************************************************************
  */
 
-const testGraph = {
+const testGraph = new Graph({
    a: ['b', 'c'],
    b: ['f'],
    c: ['d', 'e'],
    d: ['f'],
    e: ['f'],
    f: ['g'],
-}
+}).getUnweightedGraphForm()
 
 /*
     console.log(bfs(testGraph, 'a'))

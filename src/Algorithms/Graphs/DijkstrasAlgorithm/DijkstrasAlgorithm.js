@@ -1,16 +1,17 @@
+import { Graph } from '../../../DataStructures/Graph/Graph.js'
 import { PriorityQueue } from '../../../DataStructures/PriorityQueue/PriorityQueue.js'
 
 // Sorted ASC by costs fields
 class VertexesPriorityQueue extends PriorityQueue {
-   pairIsInCorrectOrder(firstElement, secondElement) {
+   _pairIsInCorrectOrder(firstElement, secondElement) {
       return firstElement.cost <= secondElement.cost
    }
 
-   isEqual(valueToSearch, heapContainerElement) {
+   _isEqual(valueToSearch, heapContainerElement) {
       return valueToSearch === heapContainerElement.vrtxName
    }
 
-   getUniqueItemField(item) {
+   _getUniqueItemField(item) {
       return item.vrtxName
    }
 }
@@ -74,14 +75,14 @@ export const dijkstrasAlg = function (graph, start, end) {
  ? **************************************************************************************************************************
  */
 
-const smallTestGraph = {
+const smallTestGraph = new Graph({
    a: { e: 14, c: 9, b: 7 },
    b: { a: 7, c: 10, d: 15 },
    c: { e: 2, a: 9, b: 10, d: 11 },
    d: { f: 6, c: 11, b: 15 },
    e: { f: 9, c: 2, a: 14 },
    f: { e: 9, d: 6 },
-}
+}).getWeightedGraphForm()
 
 /*
    console.log(dijkstrasAlg(smallTestGraph, 'a', 'f'))

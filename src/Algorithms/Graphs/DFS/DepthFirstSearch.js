@@ -1,3 +1,4 @@
+import { Graph } from '../../../DataStructures/Graph/Graph.js'
 import { Stack } from './../../../DataStructures/Stack/Stack.js'
 
 /*
@@ -26,7 +27,7 @@ export const dfs = function (graph, reachableFrom = null) {
          currVrtxsNeighbours.forEach(nb => {
             if (!reachableVrtxs[nb]) {
                reachableVrtxs[nb] = true
-               vrtxsStack.put(nb)
+               vrtxsStack.put(String(nb))
             }
          })
       }
@@ -49,14 +50,14 @@ export const dfs = function (graph, reachableFrom = null) {
  ? **************************************************************************************************************************
  */
 
-const testGraph = {
+const testGraph = new Graph({
    a: ['b', 'c'],
    b: ['f'],
    c: ['d', 'e'],
    d: ['f'],
    e: ['f'],
    f: ['g'],
-}
+}).getUnweightedGraphForm()
 
 /*
      console.log(dfs(testGraph))

@@ -89,11 +89,11 @@ export class PriorityQueue<ElementType, UniqItemFieldType>
 type ElementTypeExample = { priority: number; value: string }
 
 class PriorityQueueExample extends PriorityQueue<ElementTypeExample, string> {
-   protected pairIsInCorrectOrder(firstElement: ElementTypeExample, secondElement: ElementTypeExample): boolean {
+   protected _pairIsInCorrectOrder(firstElement: ElementTypeExample, secondElement: ElementTypeExample): boolean {
       return firstElement.priority <= secondElement.priority
    }
 
-   protected isEqual(valueToSearch: string, heapContainerElement: ElementTypeExample) {
+   protected _isEqual(valueToSearch: string, heapContainerElement: ElementTypeExample) {
       return valueToSearch === heapContainerElement.value
    }
 

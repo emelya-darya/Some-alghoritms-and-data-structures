@@ -1,3 +1,4 @@
+import { Graph } from '../../../../DataStructures/Graph/Graph.js'
 import { Stack } from '../../../../DataStructures/Stack/Stack.js'
 import { dfs } from '../../DFS/DepthFirstSearch.js'
 
@@ -24,8 +25,8 @@ const checkPathsFromOneVrtx = function (graph, start) {
 
          if (!visited[nb]) {
             visited[nb] = 'grey'
-            output.processedVs.add(nb)
-            vStack.put(nb)
+            output.processedVs.add(String(nb))
+            vStack.put(String(nb))
             hasUnprocessableNBs = true
             break
          } else if (visited[nb] === 'grey') {
@@ -67,7 +68,7 @@ export const isTheGraphAcyclic = function (graph) {
  ? **************************************************************************************************************************
  */
 
-const cyclicTestGraph = {
+const cyclicTestGraph = new Graph({
    A: ['B', 'E'],
    B: ['C'],
    C: ['D'],
@@ -76,9 +77,9 @@ const cyclicTestGraph = {
    F: ['G'],
    G: ['H'],
    H: ['D', 'F'],
-}
+}).getUnweightedGraphForm()
 
-const acyclicTestGraph = {
+const acyclicTestGraph = new Graph({
    A: ['B', 'E'],
    B: ['C'],
    C: ['D'],
@@ -87,7 +88,7 @@ const acyclicTestGraph = {
    F: [],
    G: ['H'],
    H: ['D', 'F'],
-}
+}).getUnweightedGraphForm()
 
 /*
      console.log(isTheGraphAcyclic(cyclicTestGraph))
@@ -100,4 +101,3 @@ const acyclicTestGraph = {
      *Result  
      true
 */
-
