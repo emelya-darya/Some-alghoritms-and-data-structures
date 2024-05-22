@@ -1,34 +1,39 @@
 import { Graph } from '../../../DataStructures/Graph/Graph.js'
 import { Stack } from '../../../DataStructures/Stack/Stack.js'
 
-export const topologicalSort = function (graph, allGraphVertices) {
-   let haveNoIncomingEdges = new Set(allGraphVertices)
+export const getTopologicalSort = function (graph, ignoreСyclicity = false) {
+   let allGraphVertices = new Set()
+   for (const v in graph) {
+      allGraphVertices.add(v)
+      for (let i = 0; i < graph[v].length; i++) allGraphVertices.add(String(graph[v][i]))
+   }
+   allGraphVertices = Array.from(allGraphVertices)
 
-   // remove vertices that have incoming edges
+   let haveNoIncomingEdges = new Set(allGraphVertices)
    for (const v in graph) {
       for (let i = 0; i < graph[v].length; i++) {
          const nb = String(graph[v][i])
-         if (nb === v) return null // if we encounter a loop
+         if (!ignoreСyclicity && nb === v) return null // if we encounter a loop
          haveNoIncomingEdges.delete(nb)
       }
    }
    haveNoIncomingEdges = Array.from(haveNoIncomingEdges)
 
-   if (!haveNoIncomingEdges.length) return null // if there are no such vertices, then the graph is cyclic and topological sorting is impossible for it
+   if (!ignoreСyclicity && !haveNoIncomingEdges.length) return null // if there are no such vertices, then the graph is cyclic and topological sorting is impossible for it
 
-   const outputStack = []
+   const topologicalSort = {}
+   let time = 1
 
-   // run dfs for each vertex that has no input edges
-   while (haveNoIncomingEdges.length) {
-      const start = haveNoIncomingEdges.pop() || ''
+   const shouldBeConsidered = [...allGraphVertices.filter(v => !haveNoIncomingEdges.includes(v)), ...haveNoIncomingEdges]
+
+   while (shouldBeConsidered.length) {
+      const start = shouldBeConsidered.pop() || ''
 
       const vStack = new Stack()
-      const visited = {}
+      const inTheCurrPath = {}
 
       vStack.put(start)
-      visited[start] = 'grey'
-
-      for (let i = 0; i < outputStack.length; i++) visited[outputStack[i]] = 'black'
+      inTheCurrPath[start] = true
 
       while (!vStack.isEmpty()) {
          const currVrtx = vStack.watchLast() || ''
@@ -39,32 +44,29 @@ export const topologicalSort = function (graph, allGraphVertices) {
          for (let i = 0; i < currVertNBs.length; i++) {
             const nb = currVertNBs[i]
 
-            // if the neighbor is not yet in visited, then put it in visited under the gray color + add it to the stack for dfs + turn the hasUnprocessableNBs flag to true
-            if (!visited[nb]) {
-               visited[nb] = 'grey'
+            if (!inTheCurrPath[nb] && !topologicalSort[nb]) {
+               inTheCurrPath[nb] = true
                vStack.put(String(nb))
                hasUnprocessableNBs = true
                break
-            } else if (visited[nb] === 'grey') {
-               // if we come across a cycle, there is no topological sorting for the graph
-               return null
-            }
+            } else if (!ignoreСyclicity && inTheCurrPath[nb]) return null // if we come across a cycle, there is no correct topological sorting for the graph
          }
 
-         // if the current vertex has no neighbors left, then remove it from the dfs stack, mark it black in visited and add it to the output stack
          if (!hasUnprocessableNBs) {
             vStack.extract()
-            visited[currVrtx] = 'black'
-            outputStack.push(currVrtx)
+            delete inTheCurrPath[currVrtx]
+            topologicalSort[currVrtx] = time
+            time++
+
+            const idx = shouldBeConsidered.indexOf(currVrtx)
+            if (idx !== -1) shouldBeConsidered.splice(idx, 1)
          }
       }
    }
 
-   // if we launched dfs for all vertices that do not have incoming edges and not all vertices of the graph were considered -
-   // means there is a cycle in the graph
-   if (outputStack.length !== allGraphVertices.length) return null
-
-   return outputStack.reverse()
+   return Object.entries(topologicalSort)
+      .sort((v1, v2) => v2[1] - v1[1])
+      .map(v => v[0])
 }
 
 /*
@@ -101,13 +103,19 @@ const acyclicTestGraph = new Graph({
 })
 
 /*
-   console.log(topologicalSort(cyclicTestGraph.getUnweightedGraphForm(), cyclicTestGraph.getListOfVertices()))
+   console.log(getTopologicalSort(acyclicTestGraph.getUnweightedGraphForm()))
+   *Result  
+   [ 'A', 'E', 'B', 'C', 'G', 'H', 'F', 'D' ]
+
+   !=============================================================================================
+
+   console.log(getTopologicalSort(cyclicTestGraph.getUnweightedGraphForm()))
    *Result 
    null
   
    !=============================================================================================
-  
-   console.log(topologicalSort(acyclicTestGraph.getUnweightedGraphForm(), acyclicTestGraph.getListOfVertices()))
-   *Result  
-   [ 'A', 'E', 'B', 'C', 'G', 'H', 'F', 'D' ]
+
+   console.log(getTopologicalSort(cyclicTestGraph.getUnweightedGraphForm(), true))
+   *Result 
+   [ 'H', 'F', 'G', 'A', 'E', 'B', 'C', 'D' ]
 */
