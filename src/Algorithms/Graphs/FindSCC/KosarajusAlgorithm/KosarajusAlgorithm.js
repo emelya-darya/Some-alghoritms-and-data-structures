@@ -15,7 +15,7 @@ export const kosarajusAlg = function (graph) {
 
    const reversedTopSort = (getTopologicalSort(invertedForm, true) || []).reverse()
 
-   const graphColoring= {}
+   const graphColoring = {}
    let color = 1
 
    while (reversedTopSort.length) {
@@ -77,7 +77,7 @@ export const kosarajusAlg = function (graph) {
  ? **************************************************************************************************************************
  */
 
- const cyclicTestGraph = new Graph({
+const cyclicTestGraph = new Graph({
    A: ['H'],
    B: ['J'],
    C: ['J', 'K'],
@@ -97,7 +97,7 @@ const cyclicTestGraph2 = new Graph({
    b: ['c', 'e', 'f'],
    c: ['d', 'g'],
    d: ['c', 'h'],
-   e: ['a','f'],
+   e: ['a', 'f'],
    f: ['g'],
    g: ['f'],
    h: ['d', 'g'],
@@ -174,6 +174,3 @@ const acyclicTestGraph = new Graph({
       '8': [ 'G' ]
    }
 */
-
-
-

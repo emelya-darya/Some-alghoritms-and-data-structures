@@ -77,7 +77,7 @@ export const kosarajusAlg = function (graph: UnweightedGraphType) {
  ? **************************************************************************************************************************
  */
 
- const cyclicTestGraph = new Graph({
+const cyclicTestGraph = new Graph({
    A: ['H'],
    B: ['J'],
    C: ['J', 'K'],
@@ -97,7 +97,7 @@ const cyclicTestGraph2 = new Graph({
    b: ['c', 'e', 'f'],
    c: ['d', 'g'],
    d: ['c', 'h'],
-   e: ['a','f'],
+   e: ['a', 'f'],
    f: ['g'],
    g: ['f'],
    h: ['d', 'g'],
