@@ -37,7 +37,7 @@ export const getTopologicalSort = function (graph, ignoreСyclicity = false) {
 
       while (!vStack.isEmpty()) {
          const currVrtx = vStack.watchLast() || ''
-         const currVertNBs = graph[currVrtx]
+         const currVertNBs = graph[currVrtx] || []
 
          let hasUnprocessableNBs = false
 

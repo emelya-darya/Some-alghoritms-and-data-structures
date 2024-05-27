@@ -18,7 +18,7 @@ const checkPathsFromOneVrtx = function (graph: UnweightedGraphType, start: strin
 
    while (!vStack.isEmpty()) {
       const currVrtx = vStack.watchLast() || ''
-      const currVertNBs = graph[currVrtx]
+      const currVertNBs = graph[currVrtx] || []
 
       let hasUnprocessableNBs = false
 
