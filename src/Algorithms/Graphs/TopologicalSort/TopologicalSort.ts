@@ -29,6 +29,8 @@ export const getTopologicalSort = function (graph: UnweightedGraphType, ignoreС
    while (shouldBeConsidered.length) {
       const start = shouldBeConsidered.pop() || ''
 
+      if (topologicalSort[start]) continue
+
       const vStack = new Stack<string, any>()
       const inTheCurrPath: Record<string, true> = {}
 
@@ -57,9 +59,6 @@ export const getTopologicalSort = function (graph: UnweightedGraphType, ignoreС
             delete inTheCurrPath[currVrtx]
             topologicalSort[currVrtx] = time
             time++
-
-            const idx = shouldBeConsidered.indexOf(currVrtx)
-            if (idx !== -1) shouldBeConsidered.splice(idx, 1)
          }
       }
    }
