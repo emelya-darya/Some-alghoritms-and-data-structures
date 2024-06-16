@@ -1,7 +1,7 @@
 import { Graph, UnweightedGraphType } from '../../../../DataStructures/Graph/Graph'
 import { kosarajusAlg } from '../KosarajusAlgorithm/KosarajusAlgorithm'
 
-export const getSCC = function (graph: UnweightedGraphType, SCRs: Record<string, Array<string>>) {
+export const getSCCs = function (graph: UnweightedGraphType, SCRs: Record<string, Array<string>>) {
    const SCCs:Record<string, UnweightedGraphType> = {}
 
    for (const scr in SCRs) {
@@ -58,7 +58,7 @@ export const getSCC = function (graph: UnweightedGraphType, SCRs: Record<string,
  }).getUnweightedGraphForm()
  
  /*
-    console.log(getSCC(cyclicTestGraph, kosarajusAlg(cyclicTestGraph)))
+    console.log(getSCCs(cyclicTestGraph, kosarajusAlg(cyclicTestGraph)))
     *Result  
     {
        '1': { K: [ 'I' ], F: [ 'D', 'K' ], I: [ 'F' ], D: [ 'I' ] },
@@ -70,7 +70,7 @@ export const getSCC = function (graph: UnweightedGraphType, SCRs: Record<string,
  
     !=============================================================================================
  
-    console.log(getSCC(cyclicTestGraph2, kosarajusAlg(cyclicTestGraph2)))
+    console.log(getSCCs(cyclicTestGraph2, kosarajusAlg(cyclicTestGraph2)))
     *Result 
     {
        '1': { f: [ 'g' ], g: [ 'f' ] },
