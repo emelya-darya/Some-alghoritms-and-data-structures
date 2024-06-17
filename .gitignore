@@ -102,7 +102,3 @@ dist
 
 # TernJS port file
 .tern-port
-
-src\Algorithms\Graphs\DetectCycles\FindAllSimpleCycles\JohnsonsAlgorithm.ts
-src\Algorithms\Graphs\DetectCycles\FindAllSimpleCycles\JohnsonsAlgorithm.js
-src\Algorithms\Graphs\DetectCycles\FindAllSimpleCycles\README.md
