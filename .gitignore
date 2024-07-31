@@ -102,3 +102,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+src/Algorithms/Graphs/HamiltonianPath/
+src/Algorithms/FSM/
+src/Algorithms/Math/
